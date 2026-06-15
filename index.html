@@ -358,10 +358,34 @@ display:block;
 margin:15px auto;
 }
 }
+  .music-btn{
+position:fixed;
+bottom:20px;
+right:20px;
+width:55px;
+height:55px;
+border-radius:50%;
+border:none;
+cursor:pointer;
+font-size:22px;
+background:rgba(255,255,255,0.6);
+backdrop-filter:blur(10px);
+box-shadow:0 8px 20px rgba(0,0,0,0.15);
+z-index:9999;
+transition:0.3s;
+}
+
+.music-btn:hover{
+transform:scale(1.1);
+}
 </style>
 </head>
 <body>
+<audio id="bgMusic" loop>
+  <source src="Ho Gori Sanch Hu Tu Jannat Ke, Pawan Singh Tranding Song WhatsApp Status #shorts.mp3" type="audio/mpeg">
+</audio>
 
+<button id="musicBtn" class="music-btn">🔇</button>
 <div class="floating" style="left:5%;animation-delay:0s;">💖</div>
 <div class="floating" style="left:15%;animation-delay:2s;">✨</div>
 <div class="floating" style="left:30%;animation-delay:5s;">🍕</div>
@@ -572,8 +596,49 @@ yesBtn.style.transform = `scale(${scale})`;
 
 noBtn.addEventListener("mouseover", moveNoButton);
 noBtn.addEventListener("click", moveNoButton);
+const bgMusic = document.getElementById("bgMusic");
+const musicBtn = document.getElementById("musicBtn");
 
+let isPlaying = false;
+let fadeInterval;
+
+function fadeInMusic(){
+  bgMusic.volume = 0;
+  const playPromise = bgMusic.play();
+if(playPromise !== undefined){
+  playPromise.catch(()=>{});
+}
+
+  let vol = 0;
+  clearInterval(fadeInterval);
+
+  fadeInterval = setInterval(() => {
+    if(vol < 1){
+      vol += 0.05;
+      bgMusic.volume = vol;
+    } else {
+      clearInterval(fadeInterval);
+    }
+  }, 100);
+
+  isPlaying = true;
+  musicBtn.innerText = "🔊";
+}
+
+function toggleMusic(){
+  if(isPlaying){
+    bgMusic.pause();
+    isPlaying = false;
+    musicBtn.innerText = "🔇";
+  } else {
+    fadeInMusic();
+  }
+}
+
+musicBtn.addEventListener("click", toggleMusic);
 yesBtn.addEventListener("click", ()=>{
+
+fadeInMusic(); // 🎵 start music with fade
 
 document.getElementById("success").style.display="block";
 
