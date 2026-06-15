@@ -1,283 +1,127 @@
-<!DOCTYPE html>
+from pathlib import Path
+
+html = r'''<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy Birthday 🎂</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
+<title>Jhumri Treat Investigation Bureau</title>
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
-}
-
-body{
-    overflow:hidden;
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:linear-gradient(135deg,#fff5f7,#ffe4ec,#fff8f0);
-    position:relative;
-}
-
-/* Floating Balloons */
-.balloon{
-    position:absolute;
-    bottom:-150px;
-    width:70px;
-    height:90px;
-    border-radius:50%;
-    opacity:.8;
-    animation:floatUp linear infinite;
-}
-
-.balloon::after{
-    content:"";
-    position:absolute;
-    width:2px;
-    height:80px;
-    background:#999;
-    left:50%;
-    top:90px;
-}
-
-@keyframes floatUp{
-    from{
-        transform:translateY(0);
-    }
-    to{
-        transform:translateY(-120vh);
-    }
-}
-
-/* Main Card */
-.card{
-    width:min(90%,750px);
-    background:rgba(255,255,255,.75);
-    backdrop-filter:blur(12px);
-    border-radius:30px;
-    padding:40px;
-    text-align:center;
-    box-shadow:0 15px 40px rgba(0,0,0,.12);
-    z-index:10;
-}
-
-h1{
-    font-size:3rem;
-    color:#d46a92;
-    margin-bottom:15px;
-}
-
-.subtitle{
-    color:#666;
-    font-size:1.1rem;
-    line-height:1.8;
-    margin-bottom:25px;
-}
-
-.question{
-    font-size:1.4rem;
-    font-weight:600;
-    color:#b85f81;
-    margin-bottom:30px;
-}
-
-.btn-container{
-    position:relative;
-    height:180px;
-}
-
-button{
-    border:none;
-    cursor:pointer;
-    transition:.3s;
-}
-
-#yesBtn{
-    background:linear-gradient(135deg,#ff7aa8,#ff5e95);
-    color:white;
-    padding:15px 40px;
-    border-radius:50px;
-    font-size:1.2rem;
-    font-weight:600;
-    box-shadow:0 8px 20px rgba(255,94,149,.35);
-}
-
-#yesBtn:hover{
-    transform:translateY(-3px);
-}
-
-#noBtn{
-    position:absolute;
-    left:60%;
-    top:0;
-    background:#f1f1f1;
-    color:#555;
-    padding:15px 35px;
-    border-radius:50px;
-    font-size:1.1rem;
-}
-
-.success{
-    position:fixed;
-    inset:0;
-    background:rgba(255,255,255,.97);
-    display:none;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-    z-index:999;
-}
-
-.success h2{
-    font-size:3rem;
-    color:#ff5e95;
-    margin-bottom:15px;
-    animation:pop .7s ease;
-}
-
-.success p{
-    font-size:1.3rem;
-    color:#666;
-}
-
-@keyframes pop{
-    from{
-        transform:scale(.4);
-        opacity:0;
-    }
-    to{
-        transform:scale(1);
-        opacity:1;
-    }
-}
-
-/* Confetti */
-.confetti{
-    position:fixed;
-    width:10px;
-    height:10px;
-    top:-20px;
-    z-index:1000;
-    animation:fall linear forwards;
-}
-
-@keyframes fall{
-    to{
-        transform:translateY(110vh) rotate(720deg);
-        opacity:0;
-    }
-}
+body{margin:0;font-family:Segoe UI,sans-serif;background:linear-gradient(135deg,#ffdbe8,#fff5f7,#ffeccf);overflow-x:hidden}
+.container{max-width:1100px;margin:auto;padding:20px}
+.card{background:rgba(255,255,255,.75);backdrop-filter:blur(10px);border-radius:25px;padding:25px;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+h1{text-align:center;color:#d14d7a}
+.photo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin:25px 0}
+.photo{background:#fff;border-radius:20px;padding:10px;text-align:center}
+.photo img{width:100%;height:250px;object-fit:cover;border-radius:15px}
+.meter{background:#eee;height:24px;border-radius:20px;overflow:hidden}
+.fill{height:100%;background:linear-gradient(90deg,#ff69b4,#ffb6c1)}
+#beauty{width:99.9%}
+#party{width:0%;transition:.5s}
+.buttons{position:relative;height:220px;margin-top:20px}
+button{border:none;padding:15px 30px;border-radius:40px;font-size:18px;cursor:pointer}
+#yes{background:#ff4f8b;color:white}
+#no{position:absolute;left:60%;top:40px;background:#ddd}
+#roast{text-align:center;font-weight:bold;color:#c2185b;margin-top:15px}
+.success{display:none;position:fixed;inset:0;background:white;z-index:9999;align-items:center;justify-content:center;flex-direction:column;text-align:center}
+.confetti{position:fixed;width:10px;height:10px;top:-10px;animation:fall 4s linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
 </style>
 </head>
 <body>
-
-<!-- Balloons -->
-<script>
-for(let i=0;i<18;i++){
-    const b=document.createElement("div");
-    b.classList.add("balloon");
-    b.style.left=Math.random()*100+"vw";
-    b.style.background=`hsl(${Math.random()*360},80%,75%)`;
-    b.style.animationDuration=(8+Math.random()*8)+"s";
-    b.style.animationDelay=(Math.random()*5)+"s";
-    document.body.appendChild(b);
-}
-</script>
-
+<div class="container">
 <div class="card">
-    <h1>🎂 Happy Birthday! 🎂</h1>
+<h1>🚨 National Treat Investigation Bureau 🚨</h1>
+<h2 style="text-align:center">Case #2026: Jhumri & The Missing Treat</h2>
 
-    <p class="subtitle">
-        Wishing you a day filled with happiness, laughter, sweet surprises,
-        and countless beautiful memories. 💖<br><br>
-        <i>baki wish bad me krenge</i>
-    </p>
-
-    <div class="question">
-        🎉 Are you treating me to a birthday party? 🎉
-    </div>
-
-    <div class="btn-container">
-        <button id="yesBtn">Yes 💕</button>
-        <button id="noBtn">No 🙈</button>
-    </div>
+<div class="photo-grid">
+<div class="photo"><img src="photo1.jpg"><p><b>Evidence #1</b><br>The day Jhumri looked expensive but still didn't give a treat.</p></div>
+<div class="photo"><img src="photo2.jpg"><p><b>Evidence #2</b><br>Witnesses confirm she took 73 photos and bought snacks for nobody.</p></div>
+<div class="photo"><img src="photo3.jpg"><p><b>Evidence #3</b><br>Prime suspect spotted avoiding party-related responsibilities.</p></div>
 </div>
 
-<div class="success" id="successScreen">
-    <h2>🎊 Yay! I knew you'd say yes! 🎊</h2>
-    <p>Can't wait! 🍰✨</p>
+<h3>✨ Beauty Level: 99.9%</h3>
+<div class="meter"><div class="fill" id="beauty"></div></div>
+<p>Government regulations do not allow values beyond human limits.</p>
+
+<h3>🍕 Treat Probability</h3>
+<div class="meter"><div class="fill" id="party"></div></div>
+
+<p>
+After years of observation and absolutely zero sponsored snacks,
+the bureau has concluded that Jhumri possesses unfair levels of beauty,
+excellent photography skills, and a suspicious history of avoiding treat payments.
+</p>
+
+<h2 style="text-align:center">Will you finally give us a treat? 🤨</h2>
+
+<div class="buttons">
+<center><button id="yes">YES, TREAT APPROVED 🎉</button></center>
+<button id="no">NO 🙈</button>
+</div>
+
+<div id="roast">Investigation ongoing...</div>
+</div>
+</div>
+
+<div class="success" id="success">
+<h1>🎉 TREAT APPROVED 🎉</h1>
+<h2>Aww, I knew tum party dogi! 😌✨</h2>
+<p>Friend happiness increased by 500%. Snack shortages have ended.</p>
+<h3>🏆 Achievement Unlocked: Best Friend (Treat Provider Edition)</h3>
 </div>
 
 <script>
-const noBtn = document.getElementById("noBtn");
-const yesBtn = document.getElementById("yesBtn");
-const success = document.getElementById("successScreen");
+const noBtn=document.getElementById('no');
+const yesBtn=document.getElementById('yes');
+const roast=document.getElementById('roast');
+const party=document.getElementById('party');
+let scale=1;
+let prob=0;
 
-let yesScale = 1;
+const roasts=[
+"Nice try, Jhumri 😂",
+"Beauty detected. Generosity loading...",
+"Error 404: Treat not found.",
+"Treat dene se dar lagta hai kya?",
+"The investigation continues...",
+"Running away won't save the budget.",
+"Jhumri.exe stopped responding.",
+"Witnesses are disappointed."
+];
 
-function moveNoButton(){
-    const container = document.querySelector(".btn-container");
+function moveNo(){
+const area=document.querySelector('.buttons');
+const x=Math.random()*(area.clientWidth-120);
+const y=Math.random()*(area.clientHeight-60);
+noBtn.style.left=x+'px';
+noBtn.style.top=y+'px';
 
-    const maxX = container.clientWidth - noBtn.offsetWidth;
-    const maxY = container.clientHeight - noBtn.offsetHeight;
+scale+=0.1;
+yesBtn.style.transform='scale('+scale+')';
 
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
+prob=Math.min(100,prob+12);
+party.style.width=prob+'%';
 
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
-
-    yesScale += 0.15;
-    yesBtn.style.transform = `scale(${yesScale})`;
+roast.innerText=roasts[Math.floor(Math.random()*roasts.length)];
 }
+noBtn.addEventListener('mouseover',moveNo);
+noBtn.addEventListener('click',moveNo);
 
-noBtn.addEventListener("mouseover", moveNoButton);
-noBtn.addEventListener("click", moveNoButton);
-
-yesBtn.addEventListener("click", () => {
-    success.style.display = "flex";
-    createConfetti();
-});
-
-function createConfetti(){
-    const colors = [
-        "#ff5e95",
-        "#ffd166",
-        "#06d6a0",
-        "#118ab2",
-        "#ef476f",
-        "#ff9f1c",
-        "#c77dff"
-    ];
-
-    for(let i=0;i<250;i++){
-        const confetti = document.createElement("div");
-        confetti.classList.add("confetti");
-
-        confetti.style.left = Math.random()*100+"vw";
-        confetti.style.background =
-            colors[Math.floor(Math.random()*colors.length)];
-
-        confetti.style.width = (6 + Math.random()*10)+"px";
-        confetti.style.height = (6 + Math.random()*10)+"px";
-
-        confetti.style.animationDuration =
-            (2 + Math.random()*3)+"s";
-
-        document.body.appendChild(confetti);
-
-        setTimeout(()=>{
-            confetti.remove();
-        },5000);
-    }
+yesBtn.onclick=function(){
+document.getElementById('success').style.display='flex';
+for(let i=0;i<250;i++){
+let c=document.createElement('div');
+c.className='confetti';
+c.style.left=Math.random()*100+'vw';
+c.style.background='hsl('+Math.random()*360+',90%,60%)';
+document.body.appendChild(c);
+}
 }
 </script>
-
 </body>
-</html>
+</html>'''
+
+path = "/mnt/data/jhumri_treat_investigation.html"
+Path(path).write_text(html, encoding="utf-8")
+print(path)
