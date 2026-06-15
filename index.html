@@ -381,10 +381,9 @@ transform:scale(1.1);
 </style>
 </head>
 <body>
-<audio id="bgMusic" loop>
+<audio id="bgMusic" loop preload="auto">
   <source src="song.mp3" type="audio/mpeg">
 </audio>
-
 <button id="musicBtn" class="music-btn">🔇</button>
 <div class="floating" style="left:5%;animation-delay:0s;">💖</div>
 <div class="floating" style="left:15%;animation-delay:2s;">✨</div>
@@ -636,24 +635,44 @@ function toggleMusic(){
 }
 
 musicBtn.addEventListener("click", toggleMusic);
-yesBtn.addEventListener("click", ()=>{
+yesBtn.addEventListener("click", async ()=>{
 
-fadeInMusic(); // 🎵 start music with fade
+  document.getElementById("success").style.display="block";
 
-document.getElementById("success").style.display="block";
+  document.body.style.background=
+  "linear-gradient(135deg,#ffd6ec,#fff4d6,#f3e8ff,#d6fff3)";
 
-document.body.style.background=
-"linear-gradient(135deg,#ffd6ec,#fff4d6,#f3e8ff,#d6fff3)";
+  launchConfetti();
 
-launchConfetti();
+  window.scrollTo({
+    top:document.body.scrollHeight,
+    behavior:'smooth'
+  });
 
-window.scrollTo({
-top:document.body.scrollHeight,
-behavior:'smooth'
+  try {
+    bgMusic.volume = 0;
+    await bgMusic.play();
+
+    let vol = 0;
+    clearInterval(fadeInterval);
+
+    fadeInterval = setInterval(() => {
+      if(vol < 1){
+        vol += 0.05;
+        bgMusic.volume = vol;
+      } else {
+        clearInterval(fadeInterval);
+      }
+    }, 100);
+
+    isPlaying = true;
+    musicBtn.innerText = "🔊";
+
+  } catch (err) {
+    console.log("Audio blocked:", err);
+  }
+
 });
-
-});
-
 function launchConfetti(){
 
 for(let i=0;i<250;i++){
