@@ -1,252 +1,646 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Urgent Legal Notice</title>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jhumri, We Need To Talk 😭</title>
 
-        body {
-            background: linear-gradient(135deg, #ffe5ec, #ffc2d1);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            overflow-x: hidden;
-            text-align: center;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-        .container {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            width: 100%;
-            transition: all 0.3s ease;
-        }
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
 
-        h1 {
-            color: #ff477e;
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-        }
+body{
+overflow-x:hidden;
+background:
+linear-gradient(135deg,#fff4f6,#fdf2f8,#f3e8ff);
+min-height:100vh;
+color:#4b2c3f;
+}
 
-        .roast-subtitle {
-            color: #6c757d;
-            font-size: 0.9rem;
-            font-style: italic;
-            margin-bottom: 20px;
-        }
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:
+radial-gradient(circle at 20% 20%,rgba(255,192,203,.4),transparent 30%),
+radial-gradient(circle at 80% 30%,rgba(221,160,221,.35),transparent 30%),
+radial-gradient(circle at 50% 80%,rgba(255,228,196,.35),transparent 35%);
+z-index:-2;
+}
 
-        /* Photo Gallery Section */
-        .photo-gallery {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-        }
+.floating{
+position:fixed;
+font-size:28px;
+animation:float 12s linear infinite;
+pointer-events:none;
+opacity:.8;
+z-index:0;
+}
 
-        .photo-card {
-            background: white;
-            padding: 5px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
+@keyframes float{
+0%{
+transform:translateY(110vh) rotate(0deg);
+}
+100%{
+transform:translateY(-120px) rotate(360deg);
+}
+}
 
-        .photo-card img {
-            width: 100%;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
+.container{
+width:min(1200px,92%);
+margin:auto;
+position:relative;
+z-index:2;
+}
 
-        .photo-caption {
-            font-size: 0.7rem;
-            color: #ff7096;
-            font-weight: bold;
-            margin-top: 5px;
-        }
+.glass{
+background:rgba(255,255,255,.25);
+backdrop-filter:blur(15px);
+-webkit-backdrop-filter:blur(15px);
+border:1px solid rgba(255,255,255,.35);
+box-shadow:0 8px 32px rgba(0,0,0,.08);
+border-radius:30px;
+}
 
-        .main-prompt {
-            font-size: 1.2rem;
-            color: #4a4a4a;
-            margin-bottom: 30px;
-            font-weight: 600;
-        }
+.hero{
+padding:80px 30px;
+text-align:center;
+margin-top:30px;
+}
 
-        /* Button Container */
-        .btn-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            min-height: 80px;
-            position: relative;
-        }
+.hero h1{
+font-size:clamp(2.5rem,6vw,5rem);
+font-weight:800;
+background:linear-gradient(90deg,#ff5f9e,#b76cff,#ff9f68);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+margin-bottom:15px;
+}
 
-        .btn {
-            padding: 12px 25px;
-            font-size: 1rem;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: transform 0.1s ease, font-size 0.2s ease;
-            touch-action: manipulation;
-        }
+.subtitle{
+font-size:1.1rem;
+opacity:.85;
+margin-bottom:40px;
+}
 
-        #yesBtn {
-            background-color: #4caf50;
-            color: white;
-            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
-            z-index: 10;
-        }
+.profile-wrap{
+position:relative;
+display:inline-block;
+}
 
-        #noBtn {
-            background-color: #f44336;
-            color: white;
-            box-shadow: 0 5px 15px rgba(244, 67, 54, 0.4);
-            position: relative;
-            z-index: 5;
-        }
+.profile{
+width:260px;
+height:260px;
+border-radius:50%;
+object-fit:cover;
+border:8px solid rgba(255,255,255,.6);
+box-shadow:0 20px 50px rgba(0,0,0,.15);
+background:#fff;
+}
 
-        /* Success Screen Hidden initially */
-        .hidden {
-            display: none !important;
-        }
+.arrow{
+position:absolute;
+right:-120px;
+top:50%;
+font-size:3rem;
+animation:bounce 1s infinite;
+}
 
-        .success-box h2 {
-            color: #2b9348;
-            font-size: 2rem;
-            margin-bottom: 15px;
-        }
+@keyframes bounce{
+50%{
+transform:translateX(15px);
+}
+}
 
-        .success-box p {
-            color: #4a4a4a;
-            font-size: 1.1rem;
-            line-height: 1.5;
-        }
-    </style>
+.hero-text{
+margin-top:25px;
+font-size:1.3rem;
+font-weight:600;
+}
+
+.section{
+padding:60px 30px;
+margin-top:35px;
+}
+
+.section-title{
+font-size:2rem;
+font-weight:700;
+margin-bottom:25px;
+text-align:center;
+}
+
+.gallery{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:25px;
+}
+
+.frame{
+padding:15px;
+border-radius:25px;
+background:rgba(255,255,255,.25);
+backdrop-filter:blur(15px);
+transition:.4s;
+}
+
+.frame:hover{
+transform:translateY(-8px);
+}
+
+.frame img{
+width:100%;
+height:320px;
+object-fit:cover;
+border-radius:20px;
+}
+
+.caption{
+text-align:center;
+padding:15px;
+font-weight:600;
+}
+
+.stat{
+margin-bottom:22px;
+}
+
+.label{
+display:flex;
+justify-content:space-between;
+margin-bottom:8px;
+font-weight:600;
+}
+
+.bar{
+height:18px;
+border-radius:999px;
+overflow:hidden;
+background:rgba(255,255,255,.45);
+}
+
+.fill{
+height:100%;
+border-radius:999px;
+background:linear-gradient(90deg,#ff7eb3,#ff758c,#b76cff);
+animation:grow 2s ease forwards;
+transform-origin:left;
+}
+
+@keyframes grow{
+from{
+transform:scaleX(0);
+}
+to{
+transform:scaleX(1);
+}
+}
+
+.story{
+font-size:1.1rem;
+line-height:1.9;
+text-align:center;
+}
+
+.question{
+text-align:center;
+padding:70px 30px;
+position:relative;
+overflow:hidden;
+}
+
+.question h2{
+font-size:clamp(2rem,5vw,3.2rem);
+margin-bottom:25px;
+}
+
+.buttons{
+height:180px;
+position:relative;
+margin-top:20px;
+}
+
+.yes{
+background:linear-gradient(135deg,#ff5f9e,#ff8b66);
+color:white;
+border:none;
+padding:18px 35px;
+font-size:1.15rem;
+border-radius:999px;
+cursor:pointer;
+font-weight:700;
+transition:.3s;
+box-shadow:0 10px 25px rgba(255,95,158,.35);
+}
+
+.no{
+position:absolute;
+margin-left:20px;
+background:white;
+border:none;
+padding:18px 35px;
+font-size:1.15rem;
+border-radius:999px;
+cursor:pointer;
+font-weight:700;
+transition:.25s;
+}
+
+.roast{
+margin-top:20px;
+font-size:1.2rem;
+font-weight:600;
+min-height:40px;
+}
+
+.meter{
+margin-top:35px;
+}
+
+.meter-title{
+font-weight:700;
+margin-bottom:10px;
+}
+
+.meter-bar{
+height:24px;
+background:rgba(255,255,255,.5);
+border-radius:999px;
+overflow:hidden;
+}
+
+.meter-fill{
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#ff5f9e,#ffb347);
+transition:.4s;
+}
+
+.percent{
+margin-top:8px;
+font-weight:700;
+}
+
+.success{
+display:none;
+text-align:center;
+padding:90px 20px;
+animation:pop .8s ease;
+}
+
+@keyframes pop{
+from{
+transform:scale(.8);
+opacity:0;
+}
+to{
+transform:scale(1);
+opacity:1;
+}
+}
+
+.success h1{
+font-size:clamp(2.5rem,7vw,5rem);
+margin-bottom:20px;
+}
+
+.success p{
+font-size:1.2rem;
+margin-bottom:15px;
+}
+
+.achievement{
+margin-top:25px;
+display:inline-block;
+padding:20px 30px;
+border-radius:20px;
+background:rgba(255,255,255,.3);
+}
+
+.confetti{
+position:fixed;
+width:10px;
+height:10px;
+top:-20px;
+animation:fall linear forwards;
+}
+
+@keyframes fall{
+to{
+transform:translateY(110vh) rotate(900deg);
+}
+}
+
+@media(max-width:768px){
+
+.arrow{
+position:relative;
+right:auto;
+top:auto;
+display:block;
+margin-top:15px;
+}
+
+.profile{
+width:220px;
+height:220px;
+}
+
+.no{
+position:relative;
+display:block;
+margin:15px auto;
+}
+}
+</style>
 </head>
 <body>
 
-    <div class="container" id="mainCard">
-        <h1>An Unprovoked Intervention 🛑</h1>
-        <p class="roast-subtitle">"You're actually dressed nicely today... what's wrong?"</p>
-        
-        <div class="photo-gallery">
-            <div class="photo-card">
-                <img src="ChatGPT Image Jun 15, 2026, 10_09_35 AM.png" alt="Pic 1">
-                <div class="photo-caption">Looking decent? (Rare)</div>
-            </div>
-            <div class="photo-card">
-                <img src="ChatGPT Image Jun 15, 2026, 10_10_43 AM.png" alt="Pic 2">
-                <div class="photo-caption">Serving face ✨</div>
-            </div>
-            <div class="photo-card">
-                <img src="Screenshot 2026-06-15 102620.png" alt="Pic 3">
-                <div class="photo-caption">Overqualified for my budget</div>
-            </div>
-        </div>
+<div class="floating" style="left:5%;animation-delay:0s;">💖</div>
+<div class="floating" style="left:15%;animation-delay:2s;">✨</div>
+<div class="floating" style="left:30%;animation-delay:5s;">🍕</div>
+<div class="floating" style="left:50%;animation-delay:1s;">💗</div>
+<div class="floating" style="left:70%;animation-delay:4s;">🧁</div>
+<div class="floating" style="left:85%;animation-delay:3s;">✨</div>
+<div class="floating" style="left:92%;animation-delay:6s;">🍟</div>
 
-        <p class="main-prompt">Since you went through the effort of looking this beautiful today for absolutely no reason... Will you bless me with your presence at a party?</p>
+<div class="container">
 
-        <div class="btn-container" id="btnContainer">
-            <button class="btn" id="yesBtn">Yes, obviously</button>
-            <button class="btn" id="noBtn">No, I'm boring</button>
-        </div>
-    </div>
+<section class="hero glass">
+<h1>Jhumri, We Need To Talk 😭</h1>
 
-    <div class="container hidden" id="successCard">
-        <div class="success-box">
-            <h2>Woohoo! 🎉</h2>
-            <p>I knew your standard of choice couldn't possibly be <i>that</i> bad. <br><br><strong>It's a date! Can't wait! 🚀</strong></p>
-        </div>
-    </div>
+<p class="subtitle">
+I was peacefully minding my own business when I realized something very disturbing...
+</p>
 
-    <script>
-        const yesBtn = document.getElementById('yesBtn');
-        const noBtn = document.getElementById('noBtn');
-        const mainCard = document.getElementById('mainCard');
-        const successCard = document.getElementById('successCard');
+<div class="profile-wrap">
+<img src="ChatGPT Image Jun 15, 2026, 10_09_35 AM.png" class="profile" alt="Jhumri">
+<div class="arrow">⬅️</div>
+</div>
 
-        let yesScale = 1;
-        let paddingVar = 12;
-        let fontVar = 1;
+<div class="hero-text">
+How can someone look this good and still not give a treat?
+</div>
+</section>
 
-        // Function to move the 'No' button randomly
-        function teleportNoButton() {
-            // Get viewport boundaries to prevent button from floating off mobile screen
-            const padding = 20;
-            const maxX = window.innerWidth - noBtn.offsetWidth - padding;
-            const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+<section class="section glass">
+<h2 class="section-title">📸 Evidence Gallery</h2>
 
-            // Generate random positions
-            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
-            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+<div class="gallery">
 
-            // Switch to fixed positioning once they interact so it flies anywhere on screen
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = `${randomX}px`;
-            noBtn.style.top = `${randomY}px`;
+<div class="frame">
+<img src="ChatGPT Image Jun 15, 2026, 10_10_43 AM.png" alt="">
+<div class="caption">Looking expensive.</div>
+</div>
 
-            // Blow up the 'Yes' button sizes
-            yesScale += 0.25;
-            fontVar += 0.15;
-            yesBtn.style.transform = `scale(${yesScale})`;
-            yesBtn.style.fontSize = `${fontVar}rem`;
-        }
+<div class="frame">
+<img src="photo2.jpg" alt="">
+<div class="caption">Acting innocent.</div>
+</div>
 
-        // Mobile touch & desktop hover listener triggers for the slippery button
-        noBtn.addEventListener('mouseenter', teleportNoButton);
-        noBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault(); // Prevents accidental click registering on mobile touch
-            teleportNoButton();
-        });
-        noBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            teleportNoButton();
-        });
+<div class="frame">
+<img src="photo3.jpg" alt="">
+<div class="caption">Still hasn't given a treat.</div>
+</div>
 
-        // Yes Button click behavior
-        yesBtn.addEventListener('click', () => {
-            // Hide the question card and show the win card
-            mainCard.classList.add('hidden');
-            successCard.classList.remove('hidden');
+</div>
+</section>
 
-            // Trigger canvas-confetti celebration explosion
-            var duration = 4 * 1000;
-            var end = Date.now() + duration;
+<section class="section glass">
+<h2 class="section-title">🧠 Friend Analysis Report</h2>
 
-            (function frame() {
-                confetti({
-                    particleCount: 5,
-                    angle: 60,
-                    spread: 55,
-                    origin: { x: 0, y: 0.8 }
-                });
-                confetti({
-                    particleCount: 5,
-                    angle: 120,
-                    spread: 55,
-                    origin: { x: 1, y: 0.8 }
-                });
+<div class="stat">
+<div class="label">
+<span>✨ Beauty Level</span>
+<span>99.9%</span>
+</div>
+<div class="bar"><div class="fill" style="width:99.9%"></div></div>
+</div>
 
-                if (Date.now() < end) {
-                    requestAnimationFrame(frame);
-                }
-            }());
-        });
-    </script>
+<div class="stat">
+<div class="label">
+<span>😎 Confidence Level</span>
+<span>100%</span>
+</div>
+<div class="bar"><div class="fill" style="width:100%"></div></div>
+</div>
+
+<div class="stat">
+<div class="label">
+<span>📸 Camera Friendliness</span>
+<span>100%</span>
+</div>
+<div class="bar"><div class="fill" style="width:100%"></div></div>
+</div>
+
+<div class="stat">
+<div class="label">
+<span>🍕 Treat Distribution Rate</span>
+<span>0.01%</span>
+</div>
+<div class="bar"><div class="fill" style="width:4%"></div></div>
+</div>
+
+</section>
+
+<section class="section glass">
+<h2 class="section-title">📜 Official Research Findings</h2>
+
+<p class="story">
+One day I realized that despite all these amazing qualities, Jhumri somehow manages to avoid giving treats with professional-level skill.
+<br><br>
+Scientists are still studying this phenomenon.
+<br><br>
+The website exists solely because asking normally was apparently not working.
+</p>
+</section>
+
+<section class="question glass" id="mainQuestion">
+
+<h2>
+So... will you finally give a treat? 🥺👉👈
+</h2>
+
+<div class="buttons">
+
+<button class="yes" id="yesBtn">
+YES, FINE 😭🍕
+</button>
+
+<button class="no" id="noBtn">
+NO 😌
+</button>
+
+</div>
+
+<div class="roast" id="roast">
+Choose wisely, Jhumri 👀
+</div>
+
+<div class="meter">
+<div class="meter-title">
+Probability of Jhumri Giving A Treat
+</div>
+
+<div class="meter-bar">
+<div class="meter-fill" id="meterFill"></div>
+</div>
+
+<div class="percent" id="percent">
+0%
+</div>
+</div>
+
+</section>
+
+<section class="success glass" id="success">
+
+<h1>🎉 TREAT APPROVED 🎉</h1>
+
+<p>
+Aww, I knew tum party dogi 😌✨
+</p>
+
+<p>
+Thank you for finally ending this struggle.
+</p>
+
+<div class="achievement">
+<h2>🏆 Achievement Unlocked</h2>
+<p><b>Best Friend (Treat Provider Edition)</b></p>
+</div>
+
+<p style="margin-top:25px;">
+Now the only remaining challenge is deciding who's paying the bill.
+</p>
+
+</section>
+
+</div>
+
+<script>
+
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const roast = document.getElementById("roast");
+const meterFill = document.getElementById("meterFill");
+const percent = document.getElementById("percent");
+
+const roasts = [
+"Nice try 😂",
+"You thought that would work?",
+"The button is on my side.",
+"Treat dene se itna darr?",
+"Running away won't save your wallet.",
+"Still avoiding the question?",
+"Jhumri.exe has encountered an excuse.",
+"Bro just click yes 😭",
+"At this point even the button wants a treat.",
+"That's suspiciously not a yes."
+];
+
+let probability = 0;
+let scale = 1;
+
+function moveNoButton(){
+
+const randomX = Math.random() * (window.innerWidth - 180);
+const randomY = Math.random() * 120;
+
+noBtn.style.position = "absolute";
+noBtn.style.left = randomX + "px";
+noBtn.style.top = randomY + "px";
+
+probability += 10;
+if(probability > 100) probability = 100;
+
+meterFill.style.width = probability + "%";
+percent.innerText = probability + "%";
+
+roast.innerText = roasts[Math.floor(Math.random()*roasts.length)];
+
+scale += 0.08;
+yesBtn.style.transform = `scale(${scale})`;
+}
+
+noBtn.addEventListener("mouseover", moveNoButton);
+noBtn.addEventListener("click", moveNoButton);
+
+yesBtn.addEventListener("click", ()=>{
+
+document.getElementById("success").style.display="block";
+
+document.body.style.background=
+"linear-gradient(135deg,#ffd6ec,#fff4d6,#f3e8ff,#d6fff3)";
+
+launchConfetti();
+
+window.scrollTo({
+top:document.body.scrollHeight,
+behavior:'smooth'
+});
+
+});
+
+function launchConfetti(){
+
+for(let i=0;i<250;i++){
+
+let confetti=document.createElement("div");
+confetti.classList.add("confetti");
+
+confetti.style.left=Math.random()*100+"vw";
+confetti.style.background=
+`hsl(${Math.random()*360},100%,60%)`;
+
+confetti.style.width=(Math.random()*10+6)+"px";
+confetti.style.height=(Math.random()*10+6)+"px";
+
+confetti.style.animationDuration=
+(Math.random()*3+2)+"s";
+
+document.body.appendChild(confetti);
+
+setTimeout(()=>{
+confetti.remove();
+},6000);
+}
+
+for(let i=0;i<80;i++){
+
+let heart=document.createElement("div");
+
+heart.innerHTML=["💖","💗","💞","✨","🎉"][Math.floor(Math.random()*5)];
+
+heart.style.position="fixed";
+heart.style.left=Math.random()*100+"vw";
+heart.style.top="100vh";
+heart.style.fontSize=(Math.random()*25+20)+"px";
+heart.style.pointerEvents="none";
+heart.style.zIndex="9999";
+
+document.body.appendChild(heart);
+
+heart.animate([
+{transform:'translateY(0)',opacity:1},
+{transform:'translateY(-120vh)',opacity:0}
+],{
+duration:3000+Math.random()*3000,
+easing:'ease-out'
+});
+
+setTimeout(()=>heart.remove(),6000);
+}
+
+}
+
+</script>
+
 </body>
 </html>
