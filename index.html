@@ -1,228 +1,283 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday 🎂</title>
 
-        header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 0;
-            text-align: center;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-        nav a {
-            color: white;
-            padding: 14px 20px;
-            text-decoration: none;
-            display: inline-block;
-        }
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
 
-        nav a:hover {
-            background-color: #ddd;
-            color: black;
-        }
+body{
+    overflow:hidden;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#fff5f7,#ffe4ec,#fff8f0);
+    position:relative;
+}
 
-        section {
-            padding: 20px;
-            margin: 20px;
-        }
+/* Floating Balloons */
+.balloon{
+    position:absolute;
+    bottom:-150px;
+    width:70px;
+    height:90px;
+    border-radius:50%;
+    opacity:.8;
+    animation:floatUp linear infinite;
+}
 
-        h2 {
-            border-bottom: 2px solid #4CAF50;
-            padding-bottom: 10px;
-        }
+.balloon::after{
+    content:"";
+    position:absolute;
+    width:2px;
+    height:80px;
+    background:#999;
+    left:50%;
+    top:90px;
+}
 
-        article {
-            margin-bottom: 20px;
-        }
+@keyframes floatUp{
+    from{
+        transform:translateY(0);
+    }
+    to{
+        transform:translateY(-120vh);
+    }
+}
 
-        .gallery {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
+/* Main Card */
+.card{
+    width:min(90%,750px);
+    background:rgba(255,255,255,.75);
+    backdrop-filter:blur(12px);
+    border-radius:30px;
+    padding:40px;
+    text-align:center;
+    box-shadow:0 15px 40px rgba(0,0,0,.12);
+    z-index:10;
+}
 
-        .gallery img {
-            max-width: 200px;
-            max-height: 150px;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: transform 0.3s;
-        }
+h1{
+    font-size:3rem;
+    color:#d46a92;
+    margin-bottom:15px;
+}
 
-        .gallery img:hover {
-            transform: scale(1.1);
-        }
+.subtitle{
+    color:#666;
+    font-size:1.1rem;
+    line-height:1.8;
+    margin-bottom:25px;
+}
 
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.9);
-        }
+.question{
+    font-size:1.4rem;
+    font-weight:600;
+    color:#b85f81;
+    margin-bottom:30px;
+}
 
-        .modal-content {
-            margin: auto;
-            display: block;
-            width: 80%;
-            max-width: 700px;
-        }
+.btn-container{
+    position:relative;
+    height:180px;
+}
 
-        .close {
-            position: absolute;
-            top: 15px;
-            right: 35px;
-            color: #fff;
-            font-size: 40px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
+button{
+    border:none;
+    cursor:pointer;
+    transition:.3s;
+}
 
-        .close:hover,
-        .close:focus {
-            color: #bbb;
-            text-decoration: none;
-            cursor: pointer;
-        }
+#yesBtn{
+    background:linear-gradient(135deg,#ff7aa8,#ff5e95);
+    color:white;
+    padding:15px 40px;
+    border-radius:50px;
+    font-size:1.2rem;
+    font-weight:600;
+    box-shadow:0 8px 20px rgba(255,94,149,.35);
+}
 
-        form {
-            max-width: 600px;
-            margin: auto;
-        }
+#yesBtn:hover{
+    transform:translateY(-3px);
+}
 
-        form input, form textarea {
-            width: 100%;
-            padding: 10px;
-            margin: 5px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
+#noBtn{
+    position:absolute;
+    left:60%;
+    top:0;
+    background:#f1f1f1;
+    color:#555;
+    padding:15px 35px;
+    border-radius:50px;
+    font-size:1.1rem;
+}
 
-        form input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
+.success{
+    position:fixed;
+    inset:0;
+    background:rgba(255,255,255,.97);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    z-index:999;
+}
 
-        form input[type="submit"]:hover {
-            background-color: #45a049;
-        }
+.success h2{
+    font-size:3rem;
+    color:#ff5e95;
+    margin-bottom:15px;
+    animation:pop .7s ease;
+}
 
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 10px 0;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-        }
-    </style>
+.success p{
+    font-size:1.3rem;
+    color:#666;
+}
+
+@keyframes pop{
+    from{
+        transform:scale(.4);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+/* Confetti */
+.confetti{
+    position:fixed;
+    width:10px;
+    height:10px;
+    top:-20px;
+    z-index:1000;
+    animation:fall linear forwards;
+}
+
+@keyframes fall{
+    to{
+        transform:translateY(110vh) rotate(720deg);
+        opacity:0;
+    }
+}
+</style>
 </head>
 <body>
-    <header>
-        <h1>Vivek's Blog</h1>
-        <nav>
-            <a href="#home">Home</a>
-            <a href="#school-memories">School Memories</a>
-            <a href="#interests">Interests</a>
-            <a href="#gallery">Gallery</a>
-            <a href="#contact">Contact</a>
-        </nav>
-    </header>
 
-    <section id="home">
-        <h2>Welcome to My Blog</h2>
-        <p>Hello! I am Vivek Raj, a student of IXth standard. Here I share my school days memories, my interests, and much more. Stay tuned!</p>
-    </section>
+<!-- Balloons -->
+<script>
+for(let i=0;i<18;i++){
+    const b=document.createElement("div");
+    b.classList.add("balloon");
+    b.style.left=Math.random()*100+"vw";
+    b.style.background=`hsl(${Math.random()*360},80%,75%)`;
+    b.style.animationDuration=(8+Math.random()*8)+"s";
+    b.style.animationDelay=(Math.random()*5)+"s";
+    document.body.appendChild(b);
+}
+</script>
 
-    <section id="school-memories">
-        <h2>School Memories</h2>
-        <article>
-            <h3>My First Day at School</h3>
-            <p>It was a bright sunny day when I first stepped into my school...</p>
-        </article>
-        <article>
-            <h3>Sports Day</h3>
-            <p>One of the most exciting events at school is the annual Sports Day...</p>
-        </article>
-    </section>
+<div class="card">
+    <h1>🎂 Happy Birthday! 🎂</h1>
 
-    <section id="interests">
-        <h2>My Interests</h2>
-        <article>
-            <h3>Reading Books</h3>
-            <p>I love reading books, especially science fiction and adventure...</p>
-        </article>
-        <article>
-            <h3>Playing Cricket</h3>
-            <p>Cricket is my favorite sport. I enjoy playing it with my friends...</p>
-        </article>
-    </section>
+    <p class="subtitle">
+        Wishing you a day filled with happiness, laughter, sweet surprises,
+        and countless beautiful memories. 💖<br><br>
+        <i>[Write your personalized birthday message here]</i>
+    </p>
 
-    <section id="gallery">
-        <h2>Gallery</h2>
-        <div class="gallery">
-            <img src="WhatsApp Image 2023-05-04 at 9.15.38 AM (1).jpeg" alt="Photo 1">
-            <img src="WhatsApp Image 2023-05-04 at 8.38.53 AM.jpeg" alt="Photo 2">
-            <img src="SAVE_20230611_163108 (2).jpg" alt="Photo 3">
-        </div>
-    </section>
-
-    <section id="contact">
-        <h2>Contact</h2>
-        <p>If you have any questions or want to reach out to me, please fill out the form below:</p>
-        <form>
-            <label for="name">Name:</label><br>
-            <input type="text" id="name" name="name"><br>
-            <label for="email">Email:</label><br>
-            <input type="email" id="email" name="email"><br>
-            <label for="message">Message:</label><br>
-            <textarea id="message" name="message" rows="4" cols="50"></textarea><br>
-            <input type="submit" value="Submit">
-        </form>
-    </section>
-
-    <!-- The Modal -->
-    <div id="myModal" class="modal">
-        <span class="close">&times;</span>
-        <img class="modal-content" id="img01">
+    <div class="question">
+        🎉 Are you treating me to a birthday party? 🎉
     </div>
 
-    <script>
-        // Get the modal
-        var modal = document.getElementById("myModal");
+    <div class="btn-container">
+        <button id="yesBtn">Yes 💕</button>
+        <button id="noBtn">No 🙈</button>
+    </div>
+</div>
 
-        // Get the image and insert it inside the modal - use its "alt" text as a caption
-        var images = document.querySelectorAll(".gallery img");
-        var modalImg = document.getElementById("img01");
+<div class="success" id="successScreen">
+    <h2>🎊 Yay! I knew you'd say yes! 🎊</h2>
+    <p>Can't wait! 🍰✨</p>
+</div>
 
-        images.forEach(function(image) {
-            image.onclick = function() {
-                modal.style.display = "block";
-                modalImg.src = this.src;
-            };
-        });
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const success = document.getElementById("successScreen");
 
-        // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close")[0];
+let yesScale = 1;
 
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
-            modal.style.display = "none";
-        };
-    </script>
+function moveNoButton(){
+    const container = document.querySelector(".btn-container");
+
+    const maxX = container.clientWidth - noBtn.offsetWidth;
+    const maxY = container.clientHeight - noBtn.offsetHeight;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+
+    yesScale += 0.15;
+    yesBtn.style.transform = `scale(${yesScale})`;
+}
+
+noBtn.addEventListener("mouseover", moveNoButton);
+noBtn.addEventListener("click", moveNoButton);
+
+yesBtn.addEventListener("click", () => {
+    success.style.display = "flex";
+    createConfetti();
+});
+
+function createConfetti(){
+    const colors = [
+        "#ff5e95",
+        "#ffd166",
+        "#06d6a0",
+        "#118ab2",
+        "#ef476f",
+        "#ff9f1c",
+        "#c77dff"
+    ];
+
+    for(let i=0;i<250;i++){
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+
+        confetti.style.left = Math.random()*100+"vw";
+        confetti.style.background =
+            colors[Math.floor(Math.random()*colors.length)];
+
+        confetti.style.width = (6 + Math.random()*10)+"px";
+        confetti.style.height = (6 + Math.random()*10)+"px";
+
+        confetti.style.animationDuration =
+            (2 + Math.random()*3)+"s";
+
+        document.body.appendChild(confetti);
+
+        setTimeout(()=>{
+            confetti.remove();
+        },5000);
+    }
+}
+</script>
+
 </body>
 </html>
